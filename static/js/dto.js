@@ -11,3 +11,6 @@ class Vendor{
         this.name = name
     }
 }
+
+
+//Data Transfer Objecf
