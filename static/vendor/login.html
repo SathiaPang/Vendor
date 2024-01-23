@@ -10,13 +10,13 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
 
 	<title>Sign In | AdminKit Demo</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -37,25 +37,17 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-3">
-									<form>
 										<div class="mb-3">
 											<label class="form-label">Email</label>
-											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
+											<input class="form-control form-control-lg" type="email" id="input-email" placeholder="Enter your email" />
 										</div>
-										<div class="mb-3">
+										<div class="mb-3 py-3">
 											<label class="form-label">Password</label>
-											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
-										</div>
-										<div>
-											<div class="form-check align-items-center">
-												<input id="customControlInline" type="checkbox" class="form-check-input" value="remember-me" name="remember-me" checked>
-												<label class="form-check-label text-small" for="customControlInline">Remember me</label>
-											</div>
+											<input class="form-control form-control-lg" type="password" id="input-password" placeholder="Enter your password" />
 										</div>
 										<div class="d-grid gap-2 mt-3">
-											<a href="index.html" class="btn btn-lg btn-primary">Sign in</a>
+											<button class="btn btn-lg btn-primary" id="btn-login">Log in</button>
 										</div>
-									</form>
 								</div>
 							</div>
 						</div>
@@ -68,7 +60,25 @@
 		</div>
 	</main>
 
-	<script src="js/app.js"></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/localstorage.js"></script>
+	<script>
+		document.getElementById("btn-login").addEventListener('click', ()=>{
+			let email = document.getElementById("input-email").value
+			let password = document.getElementById("input-password").value
+			let accounts = getLocalStorage(STORAGE[1])
+			let account = accounts.find((value, index, array) => value.email == email && value.password == password)
+
+			if(account != null){
+				sessionStorage.setItem("username", account.name)
+				sessionStorage.setItem("userid", account.id)
+				window.open("index.html", "_self")
+			}
+			else{
+				alert("Wrong username or password")
+			}
+		})
+	</script>
 
 </body>
 

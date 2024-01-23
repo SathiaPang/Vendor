@@ -1,5 +1,5 @@
 // local storage
-const STORAGE = ["category_list", "vendor_list"]
+const STORAGE = ["category_list", "vendor_list", "product_list"]
 
 function getLocalStorage(storageName){
     return localStorage.getItem(storageName) ?

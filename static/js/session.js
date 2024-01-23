@@ -5,6 +5,9 @@ if(sessionStorage.getItem("username") == null){
 function getUsername(){
     return sessionStorage.getItem("username")
 }
+function getUserId(){
+    return sessionStorage.getItem("userid")
+}
 
 function clearSession(){
     sessionStorage.clear()
