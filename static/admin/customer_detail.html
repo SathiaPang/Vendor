@@ -43,7 +43,7 @@
 								class="align-middle">Dashboard</span>
 						</a>
 					</li>
-					<li class="sidebar-item active">
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="category_list.html">
 							<i class="align-middle" data-feather="grid"></i> <span class="align-middle">Category</span>
 						</a>
@@ -53,7 +53,7 @@
 							<i class="align-middle" data-feather="shopping-bag"></i> <span class="align-middle">Vendor</span>
 						</a>
 					</li>
-					<li class="sidebar-item">
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="customer_list.html">
 							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Customer</span>
 						</a>
@@ -81,23 +81,47 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-					<h1 class="h3 mb-3"><strong>Category Detail</strong></h1>
+					<h1 class="h3 mb-3"><strong>Customer Detail</strong></h1>
 					<div class="row">
 						<div class="col-12 col-lg-6">
 							<div class="card">
 								<div class="card-header">
-									<h5 class="card-title mb-0">Category Name</h5>
+									<h5 class="card-title mb-0">Customer Name</h5>
 								</div>
 								<div class="card-body pt-0">
-									<input type="text" class="form-control" placeholder="Enter category name"
+									<input type="text" class="form-control" placeholder="Enter customer name"
 										id="input-name">
 								</div>
 							</div>
+
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Profile</h5>
+								</div>
+								<div class="card-body pt-0 d-flex" style="height: 100px;">
+									<img class="w-75" style="object-fit: contain;" src="" alt="" id="preview-logo">
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="d-flex justify-content-center">
-						<button class="btn btn-success btn-lg" type="button" style="width: 150px;"
-							data-bs-toggle="modal" data-bs-target="#confirmModal">Save</button>
+						<div class="col-12 col-lg-6">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Email</h5>
+								</div>
+								<div class="card-body pt-0">
+									<input type="email" class="form-control" placeholder="Enter email" id="input-email">
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Phone Number</h5>
+								</div>
+								<div class="card-body pt-0">
+									<input type="phone" class="form-control" placeholder="Enter phone number"
+										id="input-phone">
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>
@@ -136,92 +160,27 @@
 		</div>
 	</div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="confirmModalLabel">Confirm</h3>
-					<button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<strong>Are you sure you want to save this changes?</strong>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" id="btn-save" class="btn btn-primary" data-bs-toggle="modal"
-						data-bs-target="#successModal">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="successModalModalLabel">Successfully</h5>
-					<button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="my-4"><i class="align-middle d-block m-auto"
-							style="color: greenyellow; width: 100px; height: 100px;" data-feather="check-circle"></i>
-					</div>
-					<h2 class="text-center"><strong>Save Successfully</strong></h2>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-						id="btn-finish">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<script src="../js/app.js"></script>
 	<script src="../js/session.js"></script>
 	<script src="../js/localstorage.js"></script>
 	<script src="../js/dto.js"></script>
 
 	<script>
-		let categoryStorage = STORAGE[0]
-		let data = getLocalStorage(categoryStorage)
 		const url = new URLSearchParams(window.location.search);
 		let inputName = document.getElementById("input-name")
+		let inputEmail = document.getElementById("input-email")
+		let inputPhone = document.getElementById("input-phone")
+		let inputLogo = document.getElementById("input-logo")
+		let previewLogo = document.getElementById("preview-logo")
 		let saveBtn = document.getElementById("btn-save")
 		let finishBtn = document.getElementById("btn-finish")
 
 		if (url.has('id')) {
-			let item = data.find((value, index, array) => value.id == url.get('id'))
-			inputName.value = item.name
+			inputName.value = url.get('name')
+			inputEmail.value = url.get('email')
+			inputPhone.value = url.get('phone')
+			previewLogo.src = "../img/local/" + url.get('profile')
 		}
-
-		saveBtn.addEventListener('click', function () {
-			let lastItemId = (data.length==0) ? 0 : data[data.length - 1].id
-			let id = lastItemId + 1
-			let name = inputName.value
-			if (name != "") {
-				if (url.has('id')) {
-					let category = new Category(Number(url.get('id')), name)
-					editLocalStorage(Number(url.get('id')), category, categoryStorage)
-				}
-				else {
-					let category = new Category(id, name)
-					addToLocalStorage(category, categoryStorage)
-				}
-
-			}
-		})
-
-		finishBtn.addEventListener('click', function () {
-			window.open("category_list.html", "_self");
-		})
 	</script>
 
 </body>
